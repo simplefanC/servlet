@@ -89,11 +89,81 @@ servlet组件初始化的一项工作，它在第一次创建 Servlet 时被调�
 
 
 
+### HttpServletRequest
+
+- getParameter获得单个请求数据
+
+- getParameterValues
+- getHeader
+- getHeaderNames获取所有HeaderName可根据HeaderName获取Header信息
+
+- getRequestURI相对容器路径
+- getRequestURL完整路径
+- getQueryString获取?后面所有内容（如正则判断QueryString，处理不同请求）
+
+- getContextPath上下文路径，项目部署时定义的工程上下文路径，URI=ContextPath+urlPattern
 
 
 
+解决请求中文乱码，设置编码，tomcat容器默认ISO-8859-1
+
+```java
+req.setCharacterEncoding("UTF-8");
+```
+
+### HttpServletResponse
+
+解决响应中文乱码
+
+```java
+resp.setContentType("text/html; charset=UTF-8");
+```
+
+响应对象不能同时使用字节流和字符流，会出现状态异常
+
+```
+java.lang.IllegalStateException: getWriter() has already been called for this response
+```
+
+```java
+PrintWriter writer = resp.getWriter();
+ServletOutputStream outputStream = resp.getOutputStream();
+writer.write("login success");
+outputStream.write("success".getBytes());
+```
 
 
 
+## 转发
 
+属于容器的一种行为
 
+当前servlet将请求交给另一个servlet处理，而无需通知浏览器
+
+客户端请求一次，容器内部多少次客户端不知道，转发是容器的一种传播行为
+
+从url地址来看，不会改变
+
+```java
+req.getRequestDispatcher("/f2").forward(req,resp);
+```
+
+当前所处上下文为容器内部，上下文路径已经包含了ContextPath
+
+## 重定向
+
+是客户端重新请求的一种行为，服务器通知客户端再次发起请求
+
+url地址会改变
+
+服务器会有额外的开销
+
+由于是重新请求，所以无法继续共享之前请求里的req,resp对象，共享数据可通过
+
+- url重写
+- cookie
+- session
+
+```java
+resp.sendRedirect("/servlet/f4?name="+name);
+```

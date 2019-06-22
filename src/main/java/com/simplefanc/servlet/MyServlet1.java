@@ -34,6 +34,7 @@ public class MyServlet1 implements Servlet {
          * req 请求
          * res 回复
          */
+        servletResponse.setContentType("text/html; charset=UTF-8");
         servletResponse.getWriter().write("美丽的菲菲");//字符流
 //        servletResponse.getOutputStream();//字节流
 

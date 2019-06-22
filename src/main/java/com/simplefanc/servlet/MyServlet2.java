@@ -8,11 +8,9 @@ import java.io.IOException;
  * 一个servlet要以某种方式处理客户端的请求，必须配置路径
  */
 //加上这个注解，称为一个servlet组件，拥有处理请求的能力
-@WebServlet(urlPatterns = "/hate")
 //必须定义urlPattern url匹配模式;value等同于urlPattern
-
+@WebServlet(urlPatterns = "/hate")
 public class MyServlet2 implements Servlet {
-
     @Override
     public void init(ServletConfig servletConfig) throws ServletException {
         System.out.println("hello");
